@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
-import Investment_List from './Investments/Investment_List';
+
+import Dropdown_Menu from './Menu/Dropdown_Menu';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
+
       <div className="App">
-        <Investment_List />
+
+        <Dropdown_Menu
+          name="company"
+          items={[
+            { value: 'Apple', id: 0 },
+            { value: 'Amazon', id: 1 },
+            { value: 'Facebook', id: 2 },
+            { value: 'Google', id: 3 },
+            { value: 'Microsoft', id: 4 },
+          ]}
+        />
       </div>
     );
   }
