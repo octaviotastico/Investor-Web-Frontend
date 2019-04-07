@@ -1,0 +1,27 @@
+.loading {
+    position: center;
+    background-color: rgb(235, 226, 247);
+}
+
+.list {
+    position: center;
+    list-style-type: circle;
+}
+
+.elems {
+    width: 10%;
+    position: center;
+    background-color: rgb(158, 211, 255);
+}
+
+.up {
+    width: 10%;
+    position: center;
+    background-color: rgb(91, 255, 85);
+}
+
+.down {
+    width: 10%;
+    position: center;
+    background-color: rgb(255, 90, 85);
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './styles.css'
 
 // Variables.
 var url = '';
@@ -8,9 +9,17 @@ var func = 'TIME_SERIES_DAILY';
 var api_key = "X86NOH6II01P7R24";
 var companies = ["AAPL", "AMZN", "FB", "GOOGL", "MSFT"];
 
+var day;
+var open;
+var higher;
+var lower;
+var close;
+var variation;
+var percent;
+var red;
+
 class Investment_List extends Component {
-  
-  // Constructor function that sets the default values.
+
   constructor(props) {
     super(props);
     this.state = {
@@ -18,46 +27,90 @@ class Investment_List extends Component {
       loading: true
     }
   }
-  
-  // Our component has rendered at least once.
-  async componentDidMount() {
+
+  async fetch_data() {
+    var sel = this.props.select;
+    symbol = companies[sel];
     url = 'https://www.alphavantage.co/query?function=' + func + '&symbol=' + symbol + '&outputsize=' + osize + '&apikey=' + api_key;
     var response = await fetch(url);
     var data = await response.json();
-    this.setState({data: data, loading: false })
+    this.setState({data: data, loading: false });
+    this.set_values();  
   }
-  
+
+  set_values() {
+    day = this.state.data["Meta Data"]["3. Last Refreshed"];
+    open = this.state.data["Time Series (Daily)"][day]["1. open"];
+    higher = this.state.data["Time Series (Daily)"][day]["2. high"];
+    lower = this.state.data["Time Series (Daily)"][day]["3. low"];
+    close = this.state.data["Time Series (Daily)"][day]["4. close"];
+    variation = open - close;
+    if(variation > 0) {
+      percent = ((open - close)/close)*100;
+      red = true;
+    } else {
+      percent = ((close - open)/open)*100;
+      red = false;
+    }
+  }
+
   render() {
     
-    if(this.state.loading || !this.state.data) {
-      return <div>Loading :D...</div>
+    this.fetch_data();
+    if(this.state.loading || !this.state || !this.state.data) {
+      return <div className="loading">Loading :D...</div>
     } else {
-      var sel = this.props.select;
-      symbol = companies[sel];
-      var day = this.state.data["Meta Data"]["3. Last Refreshed"];
-      return (
-        <div>
-          <h2>Symbol: {symbol}</h2>
-          <p>Url: {url}</p>
-          <ul>
-            <li>
-              1. Open: {this.state.data["Time Series (Daily)"][day]["1. open"]}
-            </li>
-            <li>
-              2. High: {this.state.data["Time Series (Daily)"][day]["2. high"]}
-            </li>
-            <li>
-              3. Low: {this.state.data["Time Series (Daily)"][day]["3. low"]}
-            </li>
-            <li>
-              4. Close: {this.state.data["Time Series (Daily)"][day]["4. close"]}
-            </li>
-            <li>
-              5. Volume: {this.state.data["Time Series (Daily)"][day]["5. volume"]}
-            </li>
-          </ul>
-        </div>
-      );
+
+      if(red) {
+        return (
+          <div>
+            <h2>Symbol: {symbol}</h2>
+            <p>Url: {url}</p>
+            <ul className="list">
+              <li className="elems">
+                Open price: {open}
+              </li>
+              <li className="elems">
+                Higher price: {higher}
+              </li>
+              <li className="elems">
+                Lower price: {lower}
+              </li>
+              <li className="down" >
+                Price variation: {variation}
+              </li>
+              <li className="down">
+                Price percent: {percent}
+              </li>
+            </ul>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <h2>Symbol: {symbol}</h2>
+            <p>Url: {url}</p>
+            <ul className="list">
+              <li className="elems">
+                Open price: {open}
+              </li>
+              <li className="elems">
+                Higher price: {higher}
+              </li>
+              <li className="elems">
+                Lower price: {lower}
+              </li>
+              <li className="up" >
+                Price variation: {variation}
+              </li>
+              <li className="up" >
+                Price percent: {percent}
+              </li>
+            </ul>
+          </div>
+        );
+      }
+
     }
   }
 }

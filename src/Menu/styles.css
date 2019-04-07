@@ -13,7 +13,8 @@
   .select-box--box {
     width: 180px;
     position: absolute;
-    left: 0;
+    left: 10%;
+    top: 10%;
   }
   
   .select-box--arrow {
@@ -34,9 +35,6 @@
     width: 100%;
     padding: 4px 12px;
     vertical-align: middle;
-  }
-  
-  .select-box--items {
   }
   
   .select-box--items div {
