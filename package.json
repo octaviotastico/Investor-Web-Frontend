@@ -1,7 +1,6 @@
 {
   "name": "alphavantage_stock_market_frontend",
   "version": "1.0.0",
-  "private": true,
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

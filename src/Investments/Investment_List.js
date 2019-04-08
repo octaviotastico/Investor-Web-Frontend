@@ -24,6 +24,7 @@ class Investment_List extends Component {
       data: null,
       loading: true,
       arrow: 'up',
+      page: true,
       color: 'rgb(91, 255, 85)'
     }
   }
@@ -42,22 +43,28 @@ class Investment_List extends Component {
   }
 
   set_values() {
-    day = this.state.data["Meta Data"]["3. Last Refreshed"];
-    open = this.state.data["Time Series (Daily)"][day]["1. open"];
-    higher = this.state.data["Time Series (Daily)"][day]["2. high"];
-    lower = this.state.data["Time Series (Daily)"][day]["3. low"];
-    close = this.state.data["Time Series (Daily)"][day]["4. close"];
-    variation = open - close;
-    if(variation > 0) {
-      percent = ((open - close)/close)*100;
-      this.setState({color: 'rgb(255, 90, 85)'});
-      this.setState({arrow: 'down'});
+    if(this.state.data["Note"]) {
+      this.setState({page: false});
     } else {
-      percent = ((close - open)/open)*100;
-      this.setState({color: 'rgb(91, 255, 85)'});
-      this.setState({arrow: 'up'});
+      this.setState({page: true});
+      day = this.state.data["Meta Data"]["3. Last Refreshed"];
+      day = day.substr(0,day.indexOf(' '));
+      open = this.state.data["Time Series (Daily)"][day]["1. open"];
+      higher = this.state.data["Time Series (Daily)"][day]["2. high"];
+      lower = this.state.data["Time Series (Daily)"][day]["3. low"];
+      close = this.state.data["Time Series (Daily)"][day]["4. close"];
+      variation = open - close;
+      if(variation > 0) {
+        percent = ((open - close)/close)*100;
+        this.setState({color: 'rgb(255, 90, 85)'});
+        this.setState({arrow: 'down'});
+      } else {
+        percent = ((close - open)/open)*100;
+        this.setState({color: 'rgb(91, 255, 85)'});
+        this.setState({arrow: 'up'});
+      }
+      variation = -variation;
     }
-    variation = -variation;
   }
 
   render() {
@@ -67,7 +74,8 @@ class Investment_List extends Component {
       this.fetch_data();
     }
     
-    if(!this.state.loading && this.state && this.state.data) {
+    if(this.state.page) {
+      if(!this.state.loading && this.state && this.state.data) {
         return (
           <div>
             
@@ -75,17 +83,23 @@ class Investment_List extends Component {
               require("../Images/arrow_" + this.state.arrow + ".png")} 
               className="arrows" /></h2>
             
-            <p className="info">Open price: {open}</p>
-            <p className="info">Higher price: {higher}</p>
-            <p className="info">Lower price: {lower}</p>
+            <p className="info">Open price: $USD {open}</p>
+            <p className="info">Higher price: $USD {higher}</p>
+            <p className="info">Lower price: $USD {lower}</p>
             <p style={{background: this.state.color}} className="info">Price variation: $USD {variation}</p>
-            <p style={{background: this.state.color}} className="info">Price percent: $USD {percent}</p>
+            <p style={{background: this.state.color}} className="info">Price percent: {percent} %</p>
 
           </div>
         );
+      } else {
+        return null;
+      }
     } else {
-      return null;
+      return (
+        <p className="info">Call frequency is 5 calls per minute and 500 calls per day.</p>
+      )
     }
+    
   }
 }
 
