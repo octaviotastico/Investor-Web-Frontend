@@ -28,17 +28,19 @@ class Investment_List extends Component {
     }
   }
 
-  async fetch_data() {
-    var sel = this.props.select;
-    symbol = companies[sel];
+  fetch_data() {
     url = 'https://www.alphavantage.co/query?function=' + func + '&symbol=' + symbol + '&outputsize=' + osize + '&apikey=' + api_key;
-    var response = await fetch(url);
-    var data = await response.json();
-    this.setState({data: data, loading: false });
-    this.set_values();  
+
+    fetch(url).then((response) => {
+      return response.json();
+    }).then((data) => {
+      return this.setState({data, loading: false }, () => {
+        this.set_values();
+      });
+    });
   }
 
-  set_values() {
+  async set_values() {
     day = this.state.data["Meta Data"]["3. Last Refreshed"];
     open = this.state.data["Time Series (Daily)"][day]["1. open"];
     higher = this.state.data["Time Series (Daily)"][day]["2. high"];
@@ -56,7 +58,11 @@ class Investment_List extends Component {
 
   render() {
     
-    this.fetch_data();
+    if(symbol != companies[this.props.select]) {
+      symbol = companies[this.props.select];
+      this.fetch_data();
+    }
+    
     if(this.state.loading || !this.state || !this.state.data) {
       return <div className="loading">Loading :D...</div>
     } else {
@@ -64,8 +70,7 @@ class Investment_List extends Component {
       if(red) {
         return (
           <div>
-            <h2>Symbol: {symbol}</h2>
-            <p>Url: {url}</p>
+            <h2>Company: {symbol}</h2>
             <ul className="list">
               <li className="elems">
                 Open price: {open}
@@ -88,8 +93,7 @@ class Investment_List extends Component {
       } else {
         return (
           <div>
-            <h2>Symbol: {symbol}</h2>
-            <p>Url: {url}</p>
+            <h2>Company: {symbol}</h2>
             <ul className="list">
               <li className="elems">
                 Open price: {open}
