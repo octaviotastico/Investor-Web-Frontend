@@ -1,24 +1,30 @@
 import React, { Component } from 'react';
-
-import Dropdown_Menu from './Menu/Dropdown_Menu';
+import Investment_List from './Investments/Investment_List';
 import './App.css';
 
 class App extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      company: '',
+    }
+  }
+  
   render() {
     return (
 
       <div className="App">
 
-        <Dropdown_Menu
-          name="company"
-          items={[
-            { value: 'Apple', id: 0 },
-            { value: 'Amazon', id: 1 },
-            { value: 'Facebook', id: 2 },
-            { value: 'Google', id: 3 },
-            { value: 'Microsoft', id: 4 },
-          ]}
-        />
+        <h1> Select a company: </h1>
+
+        <button className="button" onClick={() => this.setState({ company: 'AAPL' })}>Apple</button>
+        <button className="button" onClick={() => this.setState({ company: 'AMZN' })}>Amazon</button>
+        <button className="button" onClick={() => this.setState({ company: 'FB' })}>Facebook</button>
+        <button className="button" onClick={() => this.setState({ company: 'GOOGL' })}>Google</button>
+        <button className="button" onClick={() => this.setState({ company: 'MSFT' })}>Microsoft</button>
+
+        <Investment_List select = {this.state.company} />
       </div>
     );
   }

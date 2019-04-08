@@ -7,7 +7,6 @@ var symbol = 'AAPL'
 var osize = 'compact'
 var func = 'TIME_SERIES_DAILY';
 var api_key = "X86NOH6II01P7R24";
-var companies = ["AAPL", "AMZN", "FB", "GOOGL", "MSFT"];
 
 var day;
 var open;
@@ -24,7 +23,8 @@ class Investment_List extends Component {
     super(props);
     this.state = {
       data: null,
-      loading: true
+      loading: true,
+      color: 'green'
     }
   }
 
@@ -40,7 +40,7 @@ class Investment_List extends Component {
     });
   }
 
-  async set_values() {
+  set_values() {
     day = this.state.data["Meta Data"]["3. Last Refreshed"];
     open = this.state.data["Time Series (Daily)"][day]["1. open"];
     higher = this.state.data["Time Series (Daily)"][day]["2. high"];
@@ -49,72 +49,38 @@ class Investment_List extends Component {
     variation = open - close;
     if(variation > 0) {
       percent = ((open - close)/close)*100;
-      red = true;
+      this.setState({color: 'red'});
     } else {
       percent = ((close - open)/open)*100;
-      red = false;
+      this.setState({color: 'green'});
     }
+    variation = -variation;
   }
 
   render() {
     
-    if(symbol != companies[this.props.select]) {
-      symbol = companies[this.props.select];
+    if(this.props.select !== '' && symbol !== this.props.select) {
+      symbol = this.props.select;
       this.fetch_data();
     }
     
-    if(this.state.loading || !this.state || !this.state.data) {
-      return <div className="loading">Loading :D...</div>
+    if(!this.state.loading && this.state && this.state.data) {
+
+        return (
+          <div>
+            <h2>Company: {symbol} <img src={require("../Images/arrow_down.png")} className="arrows" /></h2>
+            
+            <p className="info">Open price: {open}</p>
+            <p className="info">Higher price: {higher}</p>
+            <p className="info">Lower price: {lower}</p>
+            <p style={{background: this.state.color}} className="info">Price variation: {variation}</p>
+            <p style={{background: this.state.color}} className="info">Price percent: {percent}</p>
+
+          </div>
+        );
+
     } else {
-
-      if(red) {
-        return (
-          <div>
-            <h2>Company: {symbol}</h2>
-            <ul className="list">
-              <li className="elems">
-                Open price: {open}
-              </li>
-              <li className="elems">
-                Higher price: {higher}
-              </li>
-              <li className="elems">
-                Lower price: {lower}
-              </li>
-              <li className="down" >
-                Price variation: {variation}
-              </li>
-              <li className="down">
-                Price percent: {percent}
-              </li>
-            </ul>
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <h2>Company: {symbol}</h2>
-            <ul className="list">
-              <li className="elems">
-                Open price: {open}
-              </li>
-              <li className="elems">
-                Higher price: {higher}
-              </li>
-              <li className="elems">
-                Lower price: {lower}
-              </li>
-              <li className="up" >
-                Price variation: {variation}
-              </li>
-              <li className="up" >
-                Price percent: {percent}
-              </li>
-            </ul>
-          </div>
-        );
-      }
-
+      return null;
     }
   }
 }

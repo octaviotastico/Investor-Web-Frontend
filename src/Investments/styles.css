@@ -1,27 +1,32 @@
-.loading {
-    position: center;
-    background-color: rgb(235, 226, 247);
-}
-
 .list {
     position: center;
+    align-items: center;
+    justify-content: center;
     list-style-type: circle;
 }
 
+.arrows {
+    max-width:1.5%;
+    height:auto;
+}
+
 .elems {
-    width: 10%;
+    width: 200px;
     position: center;
+    text-align: center;
     background-color: rgb(158, 211, 255);
 }
 
 .up {
-    width: 10%;
+    width: 200px;
     position: center;
+    text-align: center;
     background-color: rgb(91, 255, 85);
 }
 
 .down {
-    width: 10%;
+    width: 200px;
     position: center;
+    text-align: center;
     background-color: rgb(255, 90, 85);
 }
