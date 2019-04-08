@@ -1,5 +1,5 @@
 * {
-  background-color: rgb(238, 227, 245);
+  background-color: rgb(231, 210, 243);
 }
 
 .App {
@@ -7,17 +7,16 @@
 }
 
 .button {
-  background-color: rgb(212, 113, 252);
   border-radius: 4px;
   border: none;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   padding: 15px 32px;
   text-align: center;
-  text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+  background-image: linear-gradient(to bottom right, rgb(227, 150, 247), rgb(191, 94, 204));
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 2px 5px 0 rgba(0,0,0,0.19);
 }
 

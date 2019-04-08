@@ -15,7 +15,6 @@ var lower;
 var close;
 var variation;
 var percent;
-var red;
 
 class Investment_List extends Component {
 
@@ -24,12 +23,14 @@ class Investment_List extends Component {
     this.state = {
       data: null,
       loading: true,
-      color: 'green'
+      arrow: 'up',
+      color: 'rgb(91, 255, 85)'
     }
   }
 
   fetch_data() {
-    url = 'https://www.alphavantage.co/query?function=' + func + '&symbol=' + symbol + '&outputsize=' + osize + '&apikey=' + api_key;
+    url = 'https://www.alphavantage.co/query?function=' + func + '&symbol='
+          + symbol + '&outputsize=' + osize + '&apikey=' + api_key;
 
     fetch(url).then((response) => {
       return response.json();
@@ -49,10 +50,12 @@ class Investment_List extends Component {
     variation = open - close;
     if(variation > 0) {
       percent = ((open - close)/close)*100;
-      this.setState({color: 'red'});
+      this.setState({color: 'rgb(255, 90, 85)'});
+      this.setState({arrow: 'down'});
     } else {
       percent = ((close - open)/open)*100;
-      this.setState({color: 'green'});
+      this.setState({color: 'rgb(91, 255, 85)'});
+      this.setState({arrow: 'up'});
     }
     variation = -variation;
   }
@@ -65,20 +68,21 @@ class Investment_List extends Component {
     }
     
     if(!this.state.loading && this.state && this.state.data) {
-
         return (
           <div>
-            <h2>Company: {symbol} <img src={require("../Images/arrow_down.png")} className="arrows" /></h2>
+            
+            <h2>Company: {symbol} <img src={
+              require("../Images/arrow_" + this.state.arrow + ".png")} 
+              className="arrows" /></h2>
             
             <p className="info">Open price: {open}</p>
             <p className="info">Higher price: {higher}</p>
             <p className="info">Lower price: {lower}</p>
-            <p style={{background: this.state.color}} className="info">Price variation: {variation}</p>
-            <p style={{background: this.state.color}} className="info">Price percent: {percent}</p>
+            <p style={{background: this.state.color}} className="info">Price variation: $USD {variation}</p>
+            <p style={{background: this.state.color}} className="info">Price percent: $USD {percent}</p>
 
           </div>
         );
-
     } else {
       return null;
     }

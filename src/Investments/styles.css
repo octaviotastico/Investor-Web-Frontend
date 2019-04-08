@@ -1,32 +1,17 @@
-.list {
-    position: center;
-    align-items: center;
-    justify-content: center;
-    list-style-type: circle;
-}
-
 .arrows {
     max-width:1.5%;
     height:auto;
 }
 
-.elems {
-    width: 200px;
+.info {
+    max-width: 500px;
+    margin: auto;
+    margin-bottom: 15px;
+    padding: 10px;
+    cursor: pointer;
     position: center;
+    border-radius: 4px;
     text-align: center;
-    background-color: rgb(158, 211, 255);
-}
-
-.up {
-    width: 200px;
-    position: center;
-    text-align: center;
-    background-color: rgb(91, 255, 85);
-}
-
-.down {
-    width: 200px;
-    position: center;
-    text-align: center;
-    background-color: rgb(255, 90, 85);
+    background-image: linear-gradient(to bottom right, rgb(119, 161, 238), rgb(74, 72, 192));
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 2px 5px 0 rgba(0,0,0,0.19);
 }
