@@ -1,6 +1,6 @@
 {
-  "name": "investor_web",
-  "version": "0.1.0",
+  "name": "alphavantage_stock_market_frontend",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
